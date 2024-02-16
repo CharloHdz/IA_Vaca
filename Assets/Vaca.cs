@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.Search;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class Vaca : MonoBehaviour
 
     [Header("Otras Cosas")]
     [SerializeField] float vel;
+    [SerializeField] TextMeshProUGUI StateText;
 
     private void Awake() {
         comida = Random.Range(30, 60);
@@ -31,55 +33,49 @@ public class Vaca : MonoBehaviour
 
     private void Update() {
 
-        //Se revisa constantemente el estado para pod
-        switch(EstadoActual){
-            case Estado.Idle:
-                //Cambio de Valores
-                comida -= 3 *Time.deltaTime;
-                estres += 1 * Time.deltaTime;
-                if(comida > 77)
-                lactancia += 3 *Time.deltaTime;
-                else if(comida > 40 && lactancia < 60)
-                lactancia += 1 * Time.deltaTime;
+        switch(EstaSegura){
+            case true:
+                //Se revisa constantemente el estado para pod
+                switch(EstadoActual){
+                    case Estado.Idle:
+                        //Cambio de Valores
+                        comida -= 3 *Time.deltaTime;
+                        estres += 1 * Time.deltaTime;
+                        if(comida > 77)
+                        lactancia += 3 *Time.deltaTime;
+                        else if(comida > 40 && lactancia < 60)
+                        lactancia += 1 * Time.deltaTime;
 
-                //Cambio de Estado
-                if(EstaSegura == true){
-                    if(comida < 30)
-                    EstadoActual = Estado.Pastar;
+                    //Cambio de Estado
+                        if(comida < 30)
+                        EstadoActual = Estado.Pastar;
 
-                    if(estres > 70)
-                    EstadoActual = Estado.Jugar;
+                        if(estres > 70)
+                        EstadoActual = Estado.Jugar;
 
-                    if(lactancia > 80)
-                    EstadoActual = Estado.Ordeñar;
-                }
-                else if(EstaSegura == false)
-                EstadoActual = Estado.Escapar;
-            break;
+                        if(lactancia > 80)
+                        EstadoActual = Estado.Ordeñar;
+                    break;
 
-            case Estado.Pastar:
-                //Cambio de Valores
-                comida += 7 * Time.deltaTime;
-                estres -= 0.3f * Time.deltaTime;
-                if(comida > 77)
-                lactancia += 3 *Time.deltaTime;
-                else if(comida > 40 && lactancia < 60)
-                lactancia += 1 * Time.deltaTime;
+                    case Estado.Pastar:
+                        //Cambio de Valores
+                        comida += 7 * Time.deltaTime;
+                        estres -= 0.3f * Time.deltaTime;
+                        if(comida > 77)
+                        lactancia += 3 *Time.deltaTime;
+                        else if(comida > 40 && lactancia < 60)
+                        lactancia += 1 * Time.deltaTime;
 
-                //Cambio de Estado
-                if(EstaSegura == true){
-                    if(comida > 95)
-                    EstadoActual = Estado.Idle;
+                        //Cambio de Estado
+                        if(comida > 95)
+                        EstadoActual = Estado.Idle;
 
-                    if(estres > 70)
-                    EstadoActual = Estado.Jugar;
+                        if(estres > 70)
+                        EstadoActual = Estado.Jugar;
 
-                    if(lactancia > 80)
-                    EstadoActual = Estado.Ordeñar;
-                }
-                else if(EstaSegura == false)
-                    EstadoActual = Estado.Escapar;
-            break;
+                        if(lactancia > 80)
+                        EstadoActual = Estado.Ordeñar;
+                    break;
 
             case Estado.Jugar:
                 estres -= 5 * Time.deltaTime;
@@ -92,32 +88,18 @@ public class Vaca : MonoBehaviour
 
                 //Cambio de Estado
                 if(EstaSegura == true){
-                    if(comida < 40)
-                    EstadoActual = Estado.Pastar;
 
                     if(estres < 30)
                     EstadoActual = Estado.Idle;
+
+                    if(comida < 40)
+                    EstadoActual = Estado.Pastar;
 
                     if(resistencia < 30)
                     EstadoActual = Estado.Descanso;
                 }
                 else if(EstaSegura == false)
                     EstadoActual = Estado.Escapar;
-            break;
-
-            case Estado.Escapar:
-                estres += 5 * Time.deltaTime;
-                resistencia -= 5 * Time.deltaTime;
-                comida -= 2 * Time.deltaTime;
-                vel = 30;
-
-                //Cambio de Estado
-                if (EstaSegura == false && estres > 90 || EstaSegura == false && estres > 60 && comida < 50){
-
-                    Destroy(gameObject);
-                }
-                else if (EstaSegura == true)
-                    EstadoActual = Estado.Descanso;
             break;
 
             case Estado.Ordeñar:
@@ -150,6 +132,10 @@ public class Vaca : MonoBehaviour
 
                 //Cambio de Estado
                 if(EstaSegura == true){
+
+                    if(resistencia > 85)
+                    EstadoActual =Estado.Idle;
+                    
                     if(comida < 30)
                     EstadoActual = Estado.Pastar;
 
@@ -159,20 +145,33 @@ public class Vaca : MonoBehaviour
                     if(lactancia > 80)
                     EstadoActual = Estado.Ordeñar;
 
-                    if(resistencia > 85)
-                    EstadoActual =Estado.Idle;
                 }
                 else if(EstaSegura == false)
                     if(resistencia > 50)
                     EstadoActual = Estado.Escapar;
             break;
         }
+            break;
 
-        print("Comida: " + comida);
-        print("Resistencia: " + resistencia);
-        print("Lactancia: " + lactancia);
-        print("Estrés: " + estres);
-        print("Estado Actual: " + EstadoActual.ToString());
+            case false:
+                //Hace el cambio de estado a "Escapar".
+                EstadoActual = Estado.Escapar;
+
+                //Hace las acciones de Escapar
+                estres += 5 * Time.deltaTime;
+                resistencia -= 5 * Time.deltaTime;
+                comida -= 2 * Time.deltaTime;
+                vel = 30;
+
+                if(estres > 90 || estres > 60 && comida < 50){
+                    Destroy(gameObject);
+                }
+            break;
+        }
+
+        print("Comida: " + comida + " | Resistencia: " + resistencia + " | Lactancia: " + lactancia + " | Estrés: " + estres + " | Está Segura: " + EstaSegura.ToString());
+
+        StateText.text = (EstadoActual.ToString());
     }
 
     void OnTriggerStay(Collider other)
@@ -185,7 +184,7 @@ public class Vaca : MonoBehaviour
         if(other.gameObject.CompareTag("Lobo")){
             EstaSegura = false;
 
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, -1 * vel * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, other.transform.position, -1 * vel * Time.deltaTime);
             transform.LookAt(other.transform);
             transform.Rotate(Vector3.up, 180);
         }
