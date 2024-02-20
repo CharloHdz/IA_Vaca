@@ -50,6 +50,16 @@ public class Vaca_E3_Jugar : State<ME_Vaca>
 
         if(entity.EstaSegura == false)
         entity.mEstados.ChangeState(Vaca_E6_Escapar.instance);
+
+        //Movimiento Aleatorio
+        entity.transform.Translate(entity.direccionAleatoria * entity.vel * Time.deltaTime);
+
+        entity.tiempoTranscurrido += Time.deltaTime;
+
+        if(entity.tiempoTranscurrido >= entity.tiempoCambioDirección){
+            entity.direccionAleatoria = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
+            entity.tiempoTranscurrido = 0;
+        }
     }
 
 
