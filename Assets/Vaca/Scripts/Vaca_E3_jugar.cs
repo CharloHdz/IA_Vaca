@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Estado3_Jugar : State<AgenteVaca>
+public class Vaca_E3_Jugar : State<ME_Vaca>
 {
-    public static Estado3_Jugar instance = null;
+    public static Vaca_E3_Jugar instance = null;
     private void Awake()
     {
         if (instance == null)
@@ -20,15 +20,15 @@ public class Estado3_Jugar : State<AgenteVaca>
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public override void Enter(AgenteVaca entity)
+    public override void Enter(ME_Vaca entity)
     {
 
     }
 
-    public override void Excute(AgenteVaca entity)
+    public override void Excute(ME_Vaca entity)
     {
         //Setea el Estado Actual
-        entity.EstadoActual = AgenteVaca.Estado.Jugar;
+        entity.EstadoActual = ME_Vaca.Estado.Jugar;
 
         entity.estres -= 5 * Time.deltaTime;
         entity.comida -= 3 * Time.deltaTime;
@@ -40,20 +40,20 @@ public class Estado3_Jugar : State<AgenteVaca>
 
         //Cambio de Estado
         if(entity.estres < 30)
-        entity.mEstados.ChangeState(Estado1_Idle.instance);
+        entity.mEstados.ChangeState(Vaca_E1_Idle.instance);
 
         if(entity.comida < 40)
-        entity.mEstados.ChangeState(Estado2_Pastar.instance);
+        entity.mEstados.ChangeState(Vaca_E2_Pastar.instance);
 
         if(entity.resistencia < 30)
-        entity.mEstados.ChangeState(Estado5_Descanso.instance);
+        entity.mEstados.ChangeState(Vaca_E5_Descanso.instance);
 
         if(entity.EstaSegura == false)
-        entity.mEstados.ChangeState(Estado6_Escapar.instance);
+        entity.mEstados.ChangeState(Vaca_E6_Escapar.instance);
     }
 
 
-    public override void Exit(AgenteVaca entity)
+    public override void Exit(ME_Vaca entity)
     {
 
     }

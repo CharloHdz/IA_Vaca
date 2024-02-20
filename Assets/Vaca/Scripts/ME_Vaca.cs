@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class AgenteVaca : MonoBehaviour
+public class ME_Vaca : MonoBehaviour
 {
-    public StateMachine<AgenteVaca> mEstados;
+    public StateMachine<ME_Vaca> mEstados;
     [Header ("Datos de la Vaca")]
     public float comida;
     public float resistencia;
@@ -14,9 +14,24 @@ public class AgenteVaca : MonoBehaviour
     public bool EstaSegura;
     public Estado EstadoActual;
 
+    [Header ("Localizaciones que la vaca conoce")]
+    public GameObject EstabloDescanso;
+    public GameObject PraderaPastar;
+    public bool PuedePastar;
+    public GameObject RanchoOrdeñar;
+    public bool PuedeOrdeñar;
+
     [Header("Otras Cosas")]
     public float vel;
     [SerializeField] TextMeshProUGUI StateText;
+
+    [Header("Movimiento Aleatorio")]
+
+    public float velocidad = 5;
+    public float tiempoCambioDirección = 2;
+
+    public float tiempoTranscurrido = 0;
+    public Vector3 direccionAleatoria;
 
 
     // Start is called before the first frame update
@@ -26,9 +41,14 @@ public class AgenteVaca : MonoBehaviour
         resistencia = Random.Range(50, 70);
         lactancia = Random.Range(50, 60);
         estres = Random.Range(10, 20);
-        mEstados = new StateMachine<AgenteVaca>(this);
-        mEstados.SetCurrentState(Estado1_Idle.instance);
+        mEstados = new StateMachine<ME_Vaca>(this);
+        mEstados.SetCurrentState(Vaca_E1_Idle.instance);
         EstaSegura = true;
+
+        //Reconoce cuáles son las zonas que va a conocer
+        EstabloDescanso = GameObject.Find("Establo");
+        RanchoOrdeñar = GameObject.Find("Rancho");
+        PraderaPastar = GameObject.Find("Pradera");
     }
 
     // Update is called once per frame
@@ -50,16 +70,33 @@ public class AgenteVaca : MonoBehaviour
 
         if(other.gameObject.CompareTag("Lobo")){
             EstaSegura = false;
-
+/*
             transform.position = Vector3.MoveTowards(transform.position, other.transform.position, -1 * vel * Time.deltaTime);
             transform.LookAt(other.transform);
             transform.Rotate(Vector3.up, 180);
+            */
+        }
+
+        if(other.gameObject.CompareTag("Pastar")){
+            PuedePastar = true;
+        }
+
+        if(other.gameObject.CompareTag("Ordeñar")){
+            PuedeOrdeñar = true;
         }
     }
 
     private void OnTriggerExit(Collider other) {
         if(other.gameObject.CompareTag("Lobo")){
             EstaSegura = true;
+        }
+
+        if(other.gameObject.CompareTag("Pastar")){
+            PuedePastar = false;
+        }
+
+        if(other.gameObject.CompareTag("Ordeñar")){
+            PuedeOrdeñar = false;
         }
     }
 

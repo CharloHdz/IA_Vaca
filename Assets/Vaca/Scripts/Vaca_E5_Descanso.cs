@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Estado5_Descanso : State<AgenteVaca>
+public class Vaca_E5_Descanso : State<ME_Vaca>
 {
-    public static Estado5_Descanso instance = null;
+    public static Vaca_E5_Descanso instance = null;
     private void Awake()
     {
         if (instance == null)
@@ -21,15 +21,15 @@ public class Estado5_Descanso : State<AgenteVaca>
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public override void Enter(AgenteVaca entity)
+    public override void Enter(ME_Vaca entity)
     {
 
     }
 
-    public override void Excute(AgenteVaca entity)
+    public override void Excute(ME_Vaca entity)
     {
         //Setea el Estado Actual
-        entity.EstadoActual = AgenteVaca.Estado.Descanso;
+        entity.EstadoActual = ME_Vaca.Estado.Descanso;
 
         entity.resistencia += 7 * Time.deltaTime;
         entity.estres -= 1 * Time.deltaTime;
@@ -41,23 +41,23 @@ public class Estado5_Descanso : State<AgenteVaca>
 
         //Cambio de Estado
         if(entity.resistencia < 85)
-        entity.mEstados.ChangeState(Estado1_Idle.instance);
+        entity.mEstados.ChangeState(Vaca_E1_Idle.instance);
 
         if(entity.comida < 30)
-        entity.mEstados.ChangeState(Estado2_Pastar.instance);
+        entity.mEstados.ChangeState(Vaca_E2_Pastar.instance);
 
         if(entity.estres > 60)
-        entity.mEstados.ChangeState(Estado3_Jugar.instance);
+        entity.mEstados.ChangeState(Vaca_E3_Jugar.instance);
 
         if(entity.lactancia > 80)
-        entity.mEstados.ChangeState(Estado4_Ordeñar.instance);
+        entity.mEstados.ChangeState(Vaca_E4_Ordeñar.instance);
 
         if(entity.EstaSegura == false)
-        entity.mEstados.ChangeState(Estado6_Escapar.instance);
+        entity.mEstados.ChangeState(Vaca_E6_Escapar.instance);
     }
 
 
-    public override void Exit(AgenteVaca entity)
+    public override void Exit(ME_Vaca entity)
     {
 
     }
