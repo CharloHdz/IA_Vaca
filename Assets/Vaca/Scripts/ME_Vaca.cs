@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ME_Vaca : MonoBehaviour
 {
@@ -27,11 +28,9 @@ public class ME_Vaca : MonoBehaviour
 
     [Header("Movimiento Aleatorio")]
 
-    public float velocidad = 5;
-    public float tiempoCambioDirección = 2;
-
-    public float tiempoTranscurrido = 0;
-    public Vector3 direccionAleatoria;
+    public List<GameObject> RandomDestinations;
+    public NavMeshAgent agent;
+    public float timer;
 
 
     // Start is called before the first frame update
@@ -49,6 +48,9 @@ public class ME_Vaca : MonoBehaviour
         EstabloDescanso = GameObject.Find("Establo");
         RanchoOrdeñar = GameObject.Find("Rancho");
         PraderaPastar = GameObject.Find("Pradera");
+
+        //Movimiento Aleatorio
+        agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -58,7 +60,7 @@ public class ME_Vaca : MonoBehaviour
 
         //print
         StateText.text = (EstadoActual.ToString());
-        print("Comida: " + comida + " | Resistencia: " + resistencia + " | Lactancia: " + lactancia + " | Estrés: " + estres + " | Está Segura: " + EstaSegura.ToString());
+        //print("Comida: " + comida + " | Resistencia: " + resistencia + " | Lactancia: " + lactancia + " | Estrés: " + estres + " | Está Segura: " + EstaSegura.ToString());
     }
 
     void OnTriggerStay(Collider other)

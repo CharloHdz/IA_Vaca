@@ -7,6 +7,9 @@ TagManager:
   - Lobo
   - Pastar
   - "Orde\xF1ar"
+  - Establo
+  - Cueva
+  - Vaca
   layers:
   - Default
   - TransparentFX

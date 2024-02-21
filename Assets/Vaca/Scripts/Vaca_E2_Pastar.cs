@@ -57,7 +57,7 @@ public class Vaca_E2_Pastar : State<ME_Vaca>
         }
 
 
-        entity.transform.position = Vector3.MoveTowards(entity.transform.position, entity.PraderaPastar.transform.position, entity.vel * Time.deltaTime);
+        entity.agent.destination = entity.PraderaPastar.transform.position;
     }
 
 

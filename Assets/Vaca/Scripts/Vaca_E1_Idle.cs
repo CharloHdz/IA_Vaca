@@ -23,7 +23,7 @@ public class Vaca_E1_Idle : State<ME_Vaca>
 
     public override void Enter(ME_Vaca entity)
     {
-        entity.direccionAleatoria = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
+        
     }
 
     public override void Excute(ME_Vaca entity)
@@ -49,17 +49,22 @@ public class Vaca_E1_Idle : State<ME_Vaca>
         if(entity.lactancia > 80)
         entity.mEstados.ChangeState(Vaca_E4_Ordeñar.instance);
 
+        if(entity.resistencia < 30)
+        entity.mEstados.ChangeState(Vaca_E5_Descanso.instance);
+
         if(entity.EstaSegura == false)
         entity.mEstados.ChangeState(Vaca_E6_Escapar.instance);
 
-        //Movimiento Aleatorio
-        entity.transform.Translate(entity.direccionAleatoria * entity.vel * Time.deltaTime);
+        //Acción del Estado
 
-        entity.tiempoTranscurrido += Time.deltaTime;
+        entity.timer -= Time.deltaTime;
+        if (entity.timer < 0f)
+        {
+            int Object = Random.Range(0, entity.RandomDestinations.Count);
 
-        if(entity.tiempoTranscurrido >= entity.tiempoCambioDirección){
-            entity.direccionAleatoria = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
-            entity.tiempoTranscurrido = 0;
+            entity.agent.destination = entity.RandomDestinations[Object].transform.position;
+            print("Estoy persiguiendo al elemento " + entity.RandomDestinations[Object].ToString());
+            entity.timer = Random.Range(5, 16);
         }
     }
 

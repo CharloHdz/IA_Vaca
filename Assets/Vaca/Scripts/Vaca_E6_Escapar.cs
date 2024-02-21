@@ -22,7 +22,8 @@ public class Vaca_E6_Escapar : State<ME_Vaca>
 
     public override void Enter(ME_Vaca entity)
     {
-
+        //Set de Valores
+        entity.vel = 30;
     }
 
     public override void Excute(ME_Vaca entity)
@@ -30,10 +31,10 @@ public class Vaca_E6_Escapar : State<ME_Vaca>
         //Setea el Estado Actual
         entity.EstadoActual = ME_Vaca.Estado.Escapar;
 
+        //Cambio de Valores
         entity.estres += 5 * Time.deltaTime;
         entity.resistencia -= 5 * Time.deltaTime;
         entity.comida -= 2 * Time.deltaTime;
-        entity.vel = 30;
 
 
         if(entity.estres > 90 || entity.estres > 60 && entity.comida < 50)
@@ -45,7 +46,7 @@ public class Vaca_E6_Escapar : State<ME_Vaca>
         }
         
 
-        entity.transform.position = Vector3.MoveTowards(entity.transform.position, entity.EstabloDescanso.transform.position, entity.vel * Time.deltaTime);
+        entity.agent.destination = entity.EstabloDescanso.transform.position;
     }
 
 
