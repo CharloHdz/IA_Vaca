@@ -72,11 +72,6 @@ public class ME_Vaca : MonoBehaviour
 
         if(other.gameObject.CompareTag("Lobo")){
             EstaSegura = false;
-/*
-            transform.position = Vector3.MoveTowards(transform.position, other.transform.position, -1 * vel * Time.deltaTime);
-            transform.LookAt(other.transform);
-            transform.Rotate(Vector3.up, 180);
-            */
         }
 
         if(other.gameObject.CompareTag("Pastar")){
