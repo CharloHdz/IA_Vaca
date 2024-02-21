@@ -58,6 +58,8 @@ public class ME_Vaca : MonoBehaviour
     {
         mEstados.Updating();
 
+        agent.speed = vel;
+
         //print
         StateText.text = (EstadoActual.ToString());
         //print("Comida: " + comida + " | Resistencia: " + resistencia + " | Lactancia: " + lactancia + " | Estrés: " + estres + " | Está Segura: " + EstaSegura.ToString());
