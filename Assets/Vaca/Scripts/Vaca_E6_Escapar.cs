@@ -24,12 +24,12 @@ public class Vaca_E6_Escapar : State<ME_Vaca>
     {
         //Set de Valores
         entity.vel = 30;
+        entity.EstadoActual = ME_Vaca.Estado.Escapar;
     }
 
     public override void Excute(ME_Vaca entity)
     {
         //Setea el Estado Actual
-        entity.EstadoActual = ME_Vaca.Estado.Escapar;
 
         //Cambio de Valores
         entity.estres += 5 * Time.deltaTime;
@@ -38,7 +38,7 @@ public class Vaca_E6_Escapar : State<ME_Vaca>
 
 
         if(entity.estres > 90 || entity.estres > 60 && entity.comida < 50)
-        Destroy(entity.gameObject);
+        entity.gameObject.SetActive(false);
 
         if(entity.EstaSegura == true){
             entity.mEstados.ChangeState(Vaca_E5_Descanso.instance);

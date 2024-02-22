@@ -18,9 +18,7 @@ public class ME_Vaca : MonoBehaviour
     [Header ("Localizaciones que la vaca conoce")]
     public GameObject EstabloDescanso;
     public GameObject PraderaPastar;
-    public bool PuedePastar;
     public GameObject RanchoOrdeñar;
-    public bool PuedeOrdeñar;
 
     [Header("Otras Cosas")]
     public float vel;
@@ -36,7 +34,7 @@ public class ME_Vaca : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        comida = Random.Range(30, 60);
+        comida = Random.Range(60, 85);
         resistencia = Random.Range(50, 70);
         lactancia = Random.Range(50, 60);
         estres = Random.Range(10, 20);
@@ -75,27 +73,19 @@ public class ME_Vaca : MonoBehaviour
         if(other.gameObject.CompareTag("Lobo")){
             EstaSegura = false;
         }
-
-        if(other.gameObject.CompareTag("Pastar")){
-            PuedePastar = true;
-        }
-
-        if(other.gameObject.CompareTag("Ordeñar")){
-            PuedeOrdeñar = true;
-        }
     }
 
     private void OnTriggerExit(Collider other) {
         if(other.gameObject.CompareTag("Lobo")){
             EstaSegura = true;
         }
+    }
 
-        if(other.gameObject.CompareTag("Pastar")){
-            PuedePastar = false;
-        }
-
-        if(other.gameObject.CompareTag("Ordeñar")){
-            PuedeOrdeñar = false;
+    void OnCollisionEnter(Collision other)
+    {
+        if(other.gameObject.CompareTag("Lobo")){
+            vel = 0;
+            StateText.text = ("Atrapado");
         }
     }
 

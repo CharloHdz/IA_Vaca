@@ -57,7 +57,7 @@ public class Lobo_E1_Idle : State<ME_Lobo>
             int Object = Random.Range(0, entity.RandomDestinations.Count);
 
             entity.agent.destination = entity.RandomDestinations[Object].transform.position;
-            print("Estoy persiguiendo al elemento " + entity.RandomDestinations[Object].ToString());
+            //print("Estoy persiguiendo al elemento " + entity.RandomDestinations[Object].ToString());
             entity.timer = Random.Range(5, 16);
         }
     }

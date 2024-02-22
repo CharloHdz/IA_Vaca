@@ -54,6 +54,9 @@ public class Vaca_E5_Descanso : State<ME_Vaca>
 
         if(entity.EstaSegura == false)
         entity.mEstados.ChangeState(Vaca_E6_Escapar.instance);
+
+        //Acción del estado
+        entity.agent.destination = entity.EstabloDescanso.transform.position;
     }
 
 

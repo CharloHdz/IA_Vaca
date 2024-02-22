@@ -6,6 +6,7 @@ using UnityEngine;
 public class Vaca_E1_Idle : State<ME_Vaca>
 {
     public static Vaca_E1_Idle instance = null;
+    int Object;
     private void Awake()
     {
         if (instance == null)
@@ -23,7 +24,7 @@ public class Vaca_E1_Idle : State<ME_Vaca>
 
     public override void Enter(ME_Vaca entity)
     {
-        
+        entity.timer = Random.Range(5, 16);
     }
 
     public override void Excute(ME_Vaca entity)
@@ -56,16 +57,16 @@ public class Vaca_E1_Idle : State<ME_Vaca>
         entity.mEstados.ChangeState(Vaca_E6_Escapar.instance);
 
         //Acción del Estado
+        entity.timer -= 1 * Time.deltaTime;
 
-        entity.timer -= Time.deltaTime;
-        if (entity.timer < 0f)
+        if (entity.timer <= 0f)
         {
-            int Object = Random.Range(0, entity.RandomDestinations.Count);
-
-            entity.agent.destination = entity.RandomDestinations[Object].transform.position;
-            print("Estoy persiguiendo al elemento " + entity.RandomDestinations[Object].ToString());
-            entity.timer = Random.Range(5, 16);
+            Object = Random.Range(0, entity.RandomDestinations.Count);
         }
+
+        entity.agent.destination = entity.RandomDestinations[Object].transform.position;
+        print("Estoy persiguiendo al elemento " + entity.RandomDestinations[Object].ToString());
+        entity.timer = Random.Range(5, 16);
     }
 
 

@@ -27,9 +27,6 @@ public class Vaca_E2_Pastar : State<ME_Vaca>
 
     public override void Excute(ME_Vaca entity)
     {
-
-        switch(entity.PuedePastar){
-            case true:
             //Setea el Estado Actual
             entity.EstadoActual = ME_Vaca.Estado.Pastar;
 
@@ -52,12 +49,7 @@ public class Vaca_E2_Pastar : State<ME_Vaca>
 
             if(entity.EstaSegura == false)
             entity.mEstados.ChangeState(Vaca_E6_Escapar.instance);
-
-            break;
-        }
-
-
-        entity.agent.destination = entity.PraderaPastar.transform.position;
+            entity.agent.destination = entity.PraderaPastar.transform.position;
     }
 
 

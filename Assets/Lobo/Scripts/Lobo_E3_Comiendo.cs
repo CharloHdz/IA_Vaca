@@ -6,7 +6,7 @@ using UnityEngine;
 public class Lobo_E3_Comiendo : State<ME_Lobo>
 {
     public static Lobo_E3_Comiendo instance = null;
-    float Timer;
+    public float Timer;
     void Awake()
     {
         if (instance == null)
@@ -45,10 +45,12 @@ public class Lobo_E3_Comiendo : State<ME_Lobo>
 
         if(entity.Comer == false && entity.Detecta == false && entity.Energia > 10)
             entity.Estados.ChangeState(Lobo_E1_Idle.instance);
+
         //Acción del Estado
         Timer -= Time.deltaTime;
-        if(Timer <= 0)
-        entity.Comer = false;
+        if(Timer <= 0){
+            entity.Comer = false;
+        }
     }
 
     public override void Exit(ME_Lobo entity)
