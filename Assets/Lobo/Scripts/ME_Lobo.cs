@@ -35,7 +35,7 @@ public class ME_Lobo : MonoBehaviour
         Energia = Random.Range(60,100);
         Detecta = false;
         Comer = false;
-        Velocidad = 5;
+        Velocidad = 4;
 
         Estados = new StateMachine<ME_Lobo>(this);
         Estados.SetCurrentState(Lobo_E1_Idle.instance);

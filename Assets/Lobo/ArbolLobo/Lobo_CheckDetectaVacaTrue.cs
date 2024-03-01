@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using BehaviorTree;
-public class Lobo_CheckHambreBaja : Node
+
+public class Lobo_CheckDetectaVacaTrue : Node
 {
-    float Hambre;
-    public Lobo_CheckHambreBaja(float _Hambre)
+    bool detectaVaca;
+    public Lobo_CheckDetectaVacaTrue(bool _detectaVaca)
     {
-        Hambre = _Hambre;
+        detectaVaca = _detectaVaca;
     }
 
     public override NodeState Evaluate()
     {
-        if (Hambre > 80)
+        if (detectaVaca == true)
         {
             state = NodeState.SUCCESS;
             return state;
@@ -21,6 +22,5 @@ public class Lobo_CheckHambreBaja : Node
 
         state = NodeState.FAILURE;
         return state;
-
     }
 }

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using BehaviorTree;
-public class Lobo_CheckHambreBaja : Node
+
+public class Lobo_CheckHambreAlta : Node
 {
     float Hambre;
-    public Lobo_CheckHambreBaja(float _Hambre)
+    public Lobo_CheckHambreAlta(float _hambre)
     {
-        Hambre = _Hambre;
+        Hambre = _hambre;
     }
 
     public override NodeState Evaluate()
@@ -21,6 +22,5 @@ public class Lobo_CheckHambreBaja : Node
 
         state = NodeState.FAILURE;
         return state;
-
     }
 }
