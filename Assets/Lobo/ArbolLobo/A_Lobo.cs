@@ -23,18 +23,39 @@ public class A_Lobo : BehaviorTree.Tree
 
     [Header("Otras Cosas")]
     [SerializeField] TextMeshProUGUI StateText;
+    public string Estado;
 
     [Header ("Movimiento Aleatorio")]
     public List<GameObject> RandomDestinations;
     public NavMeshAgent agent;
     public float timer;
 
+    [Header("MuchoTexto")]
+    public TextMeshProUGUI EnergiaText;
+    public TextMeshProUGUI HambreText;
+    public TextMeshProUGUI EstadoText;
+    public TextMeshProUGUI DetectaVacaText;
+    public TextMeshProUGUI AtrapaVacaText;
+    public TextMeshProUGUI VelocidadText;
+    public TextMeshProUGUI TimerText;
+
+    private void Awake() {
+        //Inicializar valores
+        Hambre = Random.Range(0, 15);
+        Energia = Random.Range(85, 100);
+        DetectaVaca = false;
+        AtrapaVaca = false;
+        Velocidad = 5;
+        agent = Lobo.GetComponent<NavMeshAgent>();
+        timer = 16;
+    }
+
     protected override Node SetupTree()
     {
         // Crear nodos de comportamiento
         Node idle = new Sequence(new List<Node> {
-            new Lobo_CheckHambreBaja(Hambre),  // Revisa si el hambre es baja
-            new Lobo_CheckEnergiaAlta(Energia),  // Revisa si la energía es alta
+            new Lobo_CheckHambreBaja(),  // Revisa si el hambre es baja
+            new Lobo_CheckEnergiaAlta(),  // Revisa si la energía es alta
             new Lobo_Taskidle()  // Idle
         });
 
@@ -51,13 +72,13 @@ public class A_Lobo : BehaviorTree.Tree
         });
 
         Node descansar = new Sequence(new List<Node> {
-            new Lobo_CheckHambreAlta(Hambre),  // Revisa si el hambre es alta
-            new Lobo_CheckEnergiaBaja(Energia),  // Revisa si la energía es baja
+            new Lobo_CheckHambreAlta(),  // Revisa si el hambre es alta
+            new Lobo_CheckEnergiaBaja(),  // Revisa si la energía es baja
             new Lobo_TaskDescansar()  // Descansar
         });
 
         Node muerte = new Sequence(new List<Node>{
-            new Lobo_CheckHambreEnergiaMala(Hambre, Energia), // Revisa si las condiciones de hambre y energía son malas
+            new Lobo_CheckHambreEnergiaMala(), // Revisa si las condiciones de hambre y energía son malas
             new Lobo_TaskMuerte() //Muerte
             });
 
@@ -76,15 +97,49 @@ public class A_Lobo : BehaviorTree.Tree
         root.SetData("detectaVaca", DetectaVaca);
         root.SetData("atrapaVaca", AtrapaVaca);
         root.SetData("velocidad", Velocidad);
+        root.SetData("estado", Estado);
         //GameObjects y Transform
         root.SetData("lobo", Lobo);
         root.SetData("cueva", Cueva);
-        root.SetData("StateText", StateText);
         //Movimiento Aleatorio
         root.SetData("agente", agent);
         root.SetData("randomDestinations", RandomDestinations);
         root.SetData("timer", timer);
 
+        //Mucho Texto
+        root.SetData("energiaText", EnergiaText);
+        root.SetData("hambreText", HambreText);
+        root.SetData("estadoText", EstadoText);
+        root.SetData("detectaVacaText", DetectaVacaText);
+        root.SetData("atrapaVacaText", AtrapaVacaText);
+        root.SetData("velocidadText", VelocidadText);
+        root.SetData("timerText", TimerText);
+
+
+        //Otras cosas
+        StateText.text = Estado;
+
         return root;
+    }
+
+    private void Reset() {
+        Node root = RegresarNodo();
+        Hambre = (float)root.GetData("hambre");
+        Energia = (float)root.GetData("energia");
+        DetectaVaca = (bool)root.GetData("detectaVaca");
+        AtrapaVaca = (bool)root.GetData("atrapaVaca");
+        Velocidad = (float)root.GetData("velocidad");
+        Estado = (string)root.GetData("estado");
+
+        //Mucho Texto
+        EnergiaText = (TextMeshProUGUI)root.GetData("energiaText");
+        HambreText = (TextMeshProUGUI)root.GetData("hambreText");
+        EstadoText = (TextMeshProUGUI)root.GetData("estadoText");
+        DetectaVacaText = (TextMeshProUGUI)root.GetData("detectaVacaText");
+        AtrapaVacaText = (TextMeshProUGUI)root.GetData("atrapaVacaText");
+        VelocidadText = (TextMeshProUGUI)root.GetData("velocidadText");
+        TimerText = (TextMeshProUGUI)root.GetData("timerText");
+        
+
     }
 }

@@ -16,7 +16,7 @@ public class Lobo_CheckHambreEnergiaBuena : Node
 
     public override NodeState Evaluate()
     {
-        if (hambre < 80 && energia > 30)
+        if (hambre < 60 && energia > 60)
         {
             state = NodeState.SUCCESS;
             return state;

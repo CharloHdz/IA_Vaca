@@ -22,6 +22,10 @@ namespace BehaviorTree
 
         protected abstract Node SetupTree();
 
+        public Node RegresarNodo(){
+            return _root;
+        }
+
     }
 
 }

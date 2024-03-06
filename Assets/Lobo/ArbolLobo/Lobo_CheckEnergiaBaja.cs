@@ -6,14 +6,14 @@ using BehaviorTree;
 public class Lobo_CheckEnergiaBaja : Node
 {
     float Energia;
-    public Lobo_CheckEnergiaBaja(float _energia)
+    public Lobo_CheckEnergiaBaja()
     {
-        Energia = _energia;
     }
 
     public override NodeState Evaluate()
     {
-        if (Energia < 20)
+        Energia = (float)GetData("energia");
+        if (Energia < 60)
         {
             state = NodeState.SUCCESS;
             return state;

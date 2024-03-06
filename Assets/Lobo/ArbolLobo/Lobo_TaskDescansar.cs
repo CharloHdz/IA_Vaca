@@ -13,11 +13,19 @@ public class Lobo_TaskDescansar : Node
     bool DetectaVaca;
     bool AtrapaVaca;
     float Velocidad;
-    TextMeshProUGUI StateText;
+    string Estado;
 
     //GameObjects
     GameObject Lobo;
     GameObject Cueva;
+
+    //Mucho Texto
+    TextMeshProUGUI EnergiaText;
+    TextMeshProUGUI HambreText;
+    TextMeshProUGUI EstadoText;
+    TextMeshProUGUI DetectaVacaText;
+    TextMeshProUGUI AtrapaVacaText;
+    TextMeshProUGUI VelocidadText;
     public Lobo_TaskDescansar()
     {
         //Set de Valores
@@ -28,13 +36,7 @@ public class Lobo_TaskDescansar : Node
 
     public override NodeState Evaluate()
     {
-        //Valores
-        Hambre = (float)GetData("hambre");
-        Energia = (float)GetData("energia");
-        DetectaVaca = (bool)GetData("detectaVaca");
-        AtrapaVaca = (bool)GetData("atrapaVaca");
-        Velocidad = (float)GetData("velocidad");
-        StateText = (TextMeshProUGUI)GetData("stateText");
+        GetData();
 
         //GameObjects
         Lobo = (GameObject)GetData("lobo");
@@ -44,12 +46,46 @@ public class Lobo_TaskDescansar : Node
         //Cambio de Valores
         Hambre += 0.5f * Time.deltaTime;
         Energia += 4 * Time.deltaTime;
-        StateText.text = "Descansando";
+        Estado = "Descansando";
 
         //Acción del Estado
         Lobo.transform.position = Vector3.MoveTowards(Lobo.transform.position, Cueva.transform.position, Velocidad * Time.deltaTime);
 
         state = NodeState.RUNNING;
+        SubirData();
         return state;
+    }
+
+        void GetData(){
+        //Valores
+        Hambre = (float)GetData("hambre");
+        Energia = (float)GetData("energia");
+        DetectaVaca = (bool)GetData("detectaVaca");
+        AtrapaVaca = (bool)GetData("atrapaVaca");
+        Velocidad = (float)GetData("velocidad");
+        Estado = (string)GetData("estado");
+    }
+
+    void SubirData(){
+        parent.parent.SetData("hambre", Hambre);
+        parent.parent.SetData("energia", Energia);
+        parent.parent.SetData("detectaVaca", DetectaVaca);
+        parent.parent.SetData("atrapaVaca", AtrapaVaca);
+        parent.parent.SetData("velocidad", Velocidad);
+        parent.parent.SetData("estado", Estado);
+
+        //Mucho Texto
+        HambreText.text = Hambre.ToString();
+        EnergiaText.text = Energia.ToString();
+        EstadoText.text = Estado;
+        DetectaVacaText.text = DetectaVaca.ToString();
+        AtrapaVacaText.text = AtrapaVaca.ToString();
+        VelocidadText.text = Velocidad.ToString();
+
+        parent.parent.SetData("energiaText", EnergiaText);
+        parent.parent.SetData("hambreText", HambreText);
+        parent.parent.SetData("estadoText", EstadoText);
+        parent.parent.SetData("detectaVacaText", DetectaVacaText);
+        parent.parent.SetData("atrapaVacaText", AtrapaVacaText);
     }
 }

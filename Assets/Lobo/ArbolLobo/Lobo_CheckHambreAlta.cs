@@ -7,14 +7,14 @@ using BehaviorTree;
 public class Lobo_CheckHambreAlta : Node
 {
     float Hambre;
-    public Lobo_CheckHambreAlta(float _hambre)
+    public Lobo_CheckHambreAlta()
     {
-        Hambre = _hambre;
     }
 
     public override NodeState Evaluate()
     {
-        if (Hambre > 80)
+        Hambre = (float)GetData("hambre");
+        if (Hambre > 60)
         {
             state = NodeState.SUCCESS;
             return state;

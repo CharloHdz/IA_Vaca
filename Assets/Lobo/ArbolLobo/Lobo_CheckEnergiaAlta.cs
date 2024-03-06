@@ -7,14 +7,15 @@ public class Lobo_CheckEnergiaAlta : Node
 {
     float energia;
 
-    public Lobo_CheckEnergiaAlta(float _energia)
+    public Lobo_CheckEnergiaAlta()
     {
-        energia = _energia;	
+        
     }
 
     public override NodeState Evaluate()
     {
-        if (energia > 80)
+        energia = (float)GetData("energia");
+        if (energia > 60)
         {
             state = NodeState.SUCCESS;
             return state;

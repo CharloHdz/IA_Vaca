@@ -8,14 +8,14 @@ public class Lobo_CheckHambreEnergiaMala : Node
 {
     float Energia;
     float Hambre;
-    public Lobo_CheckHambreEnergiaMala(float _energia, float _hambre)
+    public Lobo_CheckHambreEnergiaMala()
     {
-        Energia = _energia;
-        Hambre =  _hambre;
     }
 
     public override NodeState Evaluate()
     {
+        Energia = (float)GetData("energia");
+        Hambre = (float)GetData("hambre");
         if (Energia < 10 && Hambre > 95)
         {
             Debug.Log("Murio de hambre y energia");
