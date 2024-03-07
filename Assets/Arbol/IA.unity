@@ -2920,7 +2920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1498701031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4119,6 +4119,7 @@ GameObject:
   - component: {fileID: 8434306318170292703}
   - component: {fileID: 8434306318170292707}
   - component: {fileID: 8434306318170292708}
+  - component: {fileID: 8434306318170292709}
   m_Layer: 0
   m_Name: Lobo
   m_TagString: Lobo
@@ -4240,7 +4241,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!135 &4751753272074600404
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4356,7 +4357,7 @@ MonoBehaviour:
   - {fileID: 1762800903}
   - {fileID: 786099042}
   - {fileID: 369298454}
-  agent: {fileID: 0}
+  agent: {fileID: 7048608370090614361}
   timer: 0
 --- !u!195 &7048608370090614361
 NavMeshAgent:
@@ -4495,6 +4496,34 @@ MonoBehaviour:
   AtrapaVacaText: {fileID: 1638854461}
   VelocidadText: {fileID: 829761032}
   TimerText: {fileID: 722405086}
+--- !u!114 &8434306318170292709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618257452184930452}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a71ef356e494b0340bc5973704003f4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hambre: 0
+  Energia: 0
+  Detecta: 0
+  Comer: 0
+  Velocidad: 0
+  Cueva: {fileID: 1047945839}
+  EstadoActual: 0
+  StateText: {fileID: 1613126715}
+  RandomDestinations:
+  - {fileID: 701027184}
+  - {fileID: 1762800903}
+  - {fileID: 447815956}
+  - {fileID: 786099042}
+  - {fileID: 369298454}
+  agent: {fileID: 8434306318170292707}
+  timer: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
