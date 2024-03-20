@@ -81,13 +81,14 @@ public class Lobo_Taskidle : Node
 
     void SubirData(){
         //Mucho Texto
-        HambreText.text = Hambre.ToString();
+        /*HambreText.text = Hambre.ToString();
         EnergiaText.text = Energia.ToString();
         EstadoText.text = Estado;
         DetectaVacaText.text = DetectaVaca.ToString();
         AtrapaVacaText.text = AtrapaVaca.ToString();
         VelocidadText.text = Velocidad.ToString();
         TimerText.text = timer.ToString();
+        */
 
         parent.parent.SetData("hambre", Hambre);
         parent.parent.SetData("energia", Energia);
