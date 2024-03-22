@@ -12,12 +12,12 @@ public class buscador : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();   
+        agent.SetDestination(Target.transform.position);
     }
 
     // Update is called once per frame
     void Update()
     {
         agent.speed = speed;
-        agent.SetDestination(Target.transform.position);
     }
 }
