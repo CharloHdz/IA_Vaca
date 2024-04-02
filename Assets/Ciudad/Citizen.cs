@@ -1,100 +1,116 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Windows.Speech;
 
 public class Citizen : MonoBehaviour
 {
     [Header("AI (Nav Mesh)")]
     public NavMeshAgent agent;
     public Transform target;
-    public float speed = 5.0f;
+    public float speed;
 
     [Header("Datos Ciudadano")]
     public int id = 00;
-    public CitizenType TipoCiudadano;
+    public CitizenState EstadoCiudadano;
+
+    [Header("Explosion")]
+    public GameObject Explosion;
 
     [Header("Locaciones")]
-    //Hospitales
-    public GameObject Hospital1;
-    //Estaciones de Policia
-
-    //Estaciones de Bomberos
-
-    //Trabajos
-
-    //Excepciones
-    public List<GameObject> Excepciones;
-    public Location location;
+    [SerializeField] private float TiempoEntreLocaciones = 5f;
 
     void Awake()
     {
+        Explosion = GameObject.Find("Explosion");
     }
 
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        speed = 50;
     }
 
     // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(target.position);
+        if(CiudadScript.Instance.EstadoManager == CiudadScript.ManagerState.Running){
+            switch(EstadoCiudadano){
+                case CitizenState.Normal:
+                    agent.speed = speed;
+                    if(TiempoEntreLocaciones <= 0){
+                        agent.SetDestination(transform.position + new Vector3(Random.Range(-1200, 1200), 0, Random.Range(-1200, 1200)));
+                        TiempoEntreLocaciones = Random.Range(5, 15);
+                    }
+                    break;
+                case CitizenState.Running:
+                    //Correr en direccion opuesta a la explosion
+                    agent.speed = speed * 2;
+                    Vector3 target = Explosion.transform.position - transform.position;
+                    agent.SetDestination(transform.position - target);
+                    break;
+            }
+
+            TiempoEntreLocaciones -= Time.deltaTime;
+
+            switch(Vector3.Distance(transform.position, Explosion.transform.position)){
+                case float distancia when distancia < 100:
+                    Muerte();
+                    break;
+                case float distancia when distancia > 100 && distancia < 500:
+                    EstadoCiudadano = CitizenState.Running;
+                    break;
+                case float distancia when distancia > 500:
+                    EstadoCiudadano = CitizenState.Normal;
+                    break;
+            }
+        }
     }
 
     public void AsinarColor(){
-        //Asignar color segun tipo de ciudadano
-        switch(TipoCiudadano)
-        {
-            case CitizenType.Normal:
-                GetComponent<MeshRenderer>().material.color = Color.white;
+        float random = Random.Range(0, 5);
+        switch(random){
+            case 0:
+                GetComponent<Renderer>().material.color = Color.red;
                 break;
-            case CitizenType.Worker:
-                GetComponent<MeshRenderer>().material.color = Color.yellow;
+            case 1:
+                GetComponent<Renderer>().material.color = Color.blue;
                 break;
-            case CitizenType.Police:
-                GetComponent<MeshRenderer>().material.color = Color.blue;
+            case 2:
+                GetComponent<Renderer>().material.color = Color.green;
                 break;
-            case CitizenType.Fireman:
-                GetComponent<MeshRenderer>().material.color = Color.red;
+            case 3:
+                GetComponent<Renderer>().material.color = Color.yellow;
                 break;
-            case CitizenType.Doctor:
-                GetComponent<MeshRenderer>().material.color = Color.green;
+            case 4:
+                GetComponent<Renderer>().material.color = Color.magenta;
+                break;
+            case 5:
+                GetComponent<Renderer>().material.color = Color.cyan;
                 break;
         }
     }
 
     void Muerte(){
-        print("Ciudadano " + id + "Trabajo" + TipoCiudadano + " ha muerto");
+        print("Ciudadano " + id + " ha muerto");
         Destroy(gameObject);
     }
 
     void OnTriggerStay(Collider other)
     {
-        //Revisa si el ciudadano esta en la calle o en una excepcion
-        if (Excepciones.Contains(other.gameObject))
+        if(CiudadScript.Instance.EstadoManager == CiudadScript.ManagerState.Testing)
         {
-            location = Location.Exception;
-        }
-        else
-        {
-            location = Location.Street;
+            if(other.CompareTag("Exception")){
+                Destroy(gameObject);
+            }
         }
     }
 }
 
-public enum CitizenType
-{
+public enum CitizenState{
     Normal,
-    Worker,
-    Police,
-    Fireman,
-    Doctor
-}
-
-//Revisa si el ciudadano esta en la calle o en una excepcion
-public enum Location{
-    Street,
-    Exception
+    Running
 }

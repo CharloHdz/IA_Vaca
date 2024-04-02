@@ -6,8 +6,8 @@ using UnityEngine;
 public class CiudadScript : MonoBehaviour
 {
     [Header("Manager")]
-    [SerializeField] private ManagerState EstadoManager;
-    [SerializeField] private float State;
+    public ManagerState EstadoManager;
+    [SerializeField] private float State = 20;
     [Header ("Camaras")]
     [SerializeField] private List<GameObject> Cameras;
     [Header("UI")]
@@ -19,12 +19,27 @@ public class CiudadScript : MonoBehaviour
     [Header("Generador de Ciudadanos")]
     [SerializeField] private GameObject CiudadanoPrefab;
 
+    //Singleton
+    public static CiudadScript Instance;
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
         GenerarCiudadanos();
         EstadoManager = ManagerState.Testing;
+        State = 1;
     }
 
     // Update is called once per frame
@@ -84,16 +99,17 @@ public class CiudadScript : MonoBehaviour
         if(TiempoEntreExplosiones <= 0)
         {
             TiempoEntreExplosiones = Random.Range(35, 40);
-            StartCoroutine(Explosion(DuracionExplosion));
-            DuracionExplosion = Random.Range(12, 26);
+            ExplosionPrefab.SetActive(true);
+            ExplosionPrefab.transform.position = new Vector3(Random.Range(-1200f, 1201f), 127.8f, Random.Range(-1200f, 1201f));
         }
-    }
 
-    IEnumerator Explosion(float duracion)
-    {
-        GameObject explosion = Instantiate(ExplosionPrefab, new Vector3(Random.Range(-1200f, 1201f), 127.8f, Random.Range(-1200f, 1201f)), Quaternion.identity);
-        yield return new WaitForSeconds(duracion);
-        Destroy(explosion);
+        //Cambiar estado del manager
+        State -= Time.deltaTime;
+        if(State <= 0)
+        {
+            EstadoManager = ManagerState.Running;
+            State = 1;
+        }
     }
 
     void CloseCameras()
@@ -106,31 +122,11 @@ public class CiudadScript : MonoBehaviour
 
     void GenerarCiudadanos(){
         //Generar Ciudadano y asignarle un id unico
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 200; i++)
         {
             GameObject ciudadano = Instantiate(CiudadanoPrefab, new Vector3(Random.Range(-1200f, 1201f), 127.8f, Random.Range(-1200f, 1201f)), Quaternion.identity);
             ciudadano.GetComponent<Citizen>().id = Random.Range(000, 99999);
 
-            //Asignar tipo de ciudadano
-            int tipoCiudadano = Random.Range(0, 5);
-            switch (tipoCiudadano)
-            {
-                case 0:
-                    ciudadano.GetComponent<Citizen>().TipoCiudadano = CitizenType.Normal;
-                    break;
-                case 1:
-                    ciudadano.GetComponent<Citizen>().TipoCiudadano = CitizenType.Worker;
-                    break;
-                case 2:
-                    ciudadano.GetComponent<Citizen>().TipoCiudadano = CitizenType.Police;
-                    break;
-                case 3:
-                    ciudadano.GetComponent<Citizen>().TipoCiudadano = CitizenType.Fireman;
-                    break;
-                case 4:
-                    ciudadano.GetComponent<Citizen>().TipoCiudadano = CitizenType.Doctor;
-                    break;
-            }
             ciudadano.GetComponent<Citizen>().AsinarColor();
         }
     }
@@ -146,9 +142,9 @@ public class CiudadScript : MonoBehaviour
         }
         return 0;
     }
-}
 
-public enum ManagerState{
-    Testing,
-    Running
+    public enum ManagerState{
+        Testing,
+        Running
+    }
 }

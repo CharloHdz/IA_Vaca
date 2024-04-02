@@ -51,10 +51,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   target: {fileID: 7961517668742370914, guid: d819268a4bac3a54e985c666489f223f, type: 3}
-  speed: 5
+  speed: 50
   id: 0
-  TipoCiudadano: 0
-  Hospital1: {fileID: 0}
+  EstadoCiudadano: 0
+  ExplosionPrefab: {fileID: 691362655432372584, guid: 600036930b97a55449ea2d76f324d03d, type: 3}
+  Locaciones:
+  - {fileID: 8970771720707036619, guid: 51a58527f3c18c247821f61be9b8762f, type: 3}
+  - {fileID: 1064822359104050405, guid: 4bd78e6277fab4747a50af176a1ce2af, type: 3}
+  - {fileID: 8879611756166217244, guid: 916b7c96c74778748a9fc39e1e211d8e, type: 3}
+  - {fileID: 2704112338294122408, guid: dc7234192b830844dbeca7af4052caa3, type: 3}
+  - {fileID: 3990281709599602427, guid: eff26f853aa784b48ba68897a41b52a0, type: 3}
+  - {fileID: 2160249883535338685, guid: 58a020fb9baf342429b9e7e823de7acf, type: 3}
+  - {fileID: 3223413847663106877, guid: 81ffcd7ea1a2f584aac603a848dacdb0, type: 3}
+  - {fileID: 1733636109310841113, guid: 4207403afae696341a0d71da170bcef6, type: 3}
+  TiempoEntreLocaciones: 0
 --- !u!33 &6412130841437199478
 MeshFilter:
   m_ObjectHideFlags: 0

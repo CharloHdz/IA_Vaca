@@ -10,6 +10,7 @@ TagManager:
   - Establo
   - Cueva
   - Vaca
+  - Exception
   layers:
   - Default
   - TransparentFX
