@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Windows.Speech;
@@ -38,21 +39,6 @@ public class Citizen : MonoBehaviour
     void Update()
     {
         if(CiudadScript.Instance.EstadoManager == CiudadScript.ManagerState.Running){
-            switch(EstadoCiudadano){
-                case CitizenState.Normal:
-                    agent.speed = speed;
-                    if(TiempoEntreLocaciones <= 0){
-                        agent.SetDestination(transform.position + new Vector3(Random.Range(-1200, 1200), 0, Random.Range(-1200, 1200)));
-                        TiempoEntreLocaciones = Random.Range(5, 15);
-                    }
-                    break;
-                case CitizenState.Running:
-                    //Correr en direccion opuesta a la explosion
-                    agent.speed = speed * 2;
-                    Vector3 target = Explosion.transform.position - transform.position;
-                    agent.SetDestination(transform.position - target);
-                    break;
-            }
 
             TiempoEntreLocaciones -= Time.deltaTime;
 
@@ -68,6 +54,22 @@ public class Citizen : MonoBehaviour
                     break;
             }
         }
+
+        switch(EstadoCiudadano){
+                case CitizenState.Normal:
+                    agent.speed = speed;
+                    if(TiempoEntreLocaciones <= 0){
+                        agent.SetDestination(transform.position + new Vector3(Random.Range(-1200, 1200), 0, Random.Range(-1200, 1200)));
+                        TiempoEntreLocaciones = Random.Range(5, 15);
+                    }
+                    break;
+                case CitizenState.Running:
+                    //Correr en direccion opuesta a la explosion
+                    speed = 100;
+                    Vector3 target = Explosion.transform.position - transform.position;
+                    agent.SetDestination(transform.position - target);
+                    break;
+            }
     }
 
     public void AsinarColor(){
